@@ -1,0 +1,21 @@
+    labels:
+      - "MP-HomeCore.dns_ip=192.168.1.10"
+      - "MP-HomeCore.hostname=mailslurper.mp-studio.duckdns.org"
+      - "MP-HomeCore.cname_target=npm.mp-studio.duckdns.org"
+      - "MP-HomeCore.pihole_type=cname" # or dns
+      - "MP-HomeCore.pihole_disable=true"
+      - "MP-HomeCore.npm_disable=true" 
+
+      #This you can set as default in config.yaml
+      - "MP-HomeCore.forward_host=192.168.1.10"
+      - "MP-HomeCore.forward_port=8080"
+      - "MP-HomeCore.blockCommExploits=true"
+      - "MP-HomeCore.Caching=false"
+      - "MP-HomeCore.sslCertificate=*.mp-studio.duckdns.org" #name of cert
+      - "MP-HomeCore.forceHttps=true"
+      - "MP-HomeCore.enableHttp2=false"
+      - "MP-HomeCore.hstsEnabled=false"
+      - "MP-HomeCore.includeSubdomainsInHsts=false"
+      - "MP-HomeCore.targetScheme=http"
+      - "MP-HomeCore.allowWebsockets=true"
+      - "MP-HomeCore.accessList=ACL-HOME" # default is Publicly Accessible, default access policy

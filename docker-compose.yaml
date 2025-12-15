@@ -1,0 +1,12 @@
+services:
+  mp-homecore:
+    build: .
+    container_name: mp-homecore
+    volumes:
+  # Mount the config directory as read-only in the container
+      - ./config:/app/config:ro
+  # Mount the entire db directory so the app can write YAML files
+      - ./db:/app/db
+  # Mount the Docker socket so the container can interact with the Docker daemon
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
