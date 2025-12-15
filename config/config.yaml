@@ -1,4 +1,15 @@
 # =====================
+# Scheduler
+# =====================
+SCHEDULER_INTERVAL_MINUTES: 1     # Interval in minutes for reconciliation
+
+# =====================
+# Docker API
+# =====================
+#DOCKER_TCP_URL: 'tcp://192.168.1.30:2375' # Remote Docker API URL (omit to use local socket)
+
+
+# =====================
 # Pi-hole configuration
 # =====================
 PIHOLE_ENABLED: true              # Enable Pi-hole integration
@@ -6,9 +17,13 @@ PIHOLE_URL: 'http://192.168.1.10:8084'  # Pi-hole API URL
 PIHOLE_PASSWORD: 'password'       # Pi-hole API password ("" if none)
 
 # =====================
-# Scheduler
+# Pi-hole defaults
 # =====================
-SCHEDULER_INTERVAL_MINUTES: 1     # Interval in minutes for reconciliation
+# PIHOLE_DEFAULTS:
+#   pihole_type: 'cname'            # Default record type: 'dns' or 'cname'
+#   cname_target: 'npm.mp-studio.duckdns.org' # Default CNAME target
+
+
 
 # =====================
 # Nginx Proxy Manager
@@ -30,14 +45,5 @@ NPM_PASSWORD: 'Password'          # NPM password
 #   hsts_subdomains: true           # Include subdomains in HSTS
 #   allow_websocket_upgrade: true   # Allow WebSocket upgrades
 
-# =====================
-# Pi-hole defaults
-# =====================
-# PIHOLE_DEFAULTS:
-#   pihole_type: 'cname'            # Default record type: 'dns' or 'cname'
-#   cname_target: 'npm.mp-studio.duckdns.org' # Default CNAME target
 
-# =====================
-# Docker API
-# =====================
-#DOCKER_TCP_URL: 'tcp://192.168.1.30:2375' # Remote Docker API URL (omit to use local socket)
+

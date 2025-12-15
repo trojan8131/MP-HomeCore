@@ -1,5 +1,6 @@
 labels:
   # (can be defined globally in config.yaml)
+  # Hash what you dont need
   # =======================
   # Pi-hole / DNS settings
   # =======================

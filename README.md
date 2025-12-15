@@ -11,6 +11,12 @@ It connects to a **local Docker socket** or a **remote Docker API**, inspects ru
 This allows you to expose internal services automatically without manually touching Pi-hole or NPM.
 
 ---
+## ✨ Youtube Tutorial (Should be in English Dubbing)
+
+https://youtu.be/nXfmK81Qr7A
+
+
+---
 
 ## ✨ Features
 
