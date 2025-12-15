@@ -3,7 +3,7 @@ from pprint import pprint
 import yaml
 from pathlib import Path
 
-DB_FILE = Path("/MP-HomeCore/pihole_hosts_db.yaml")
+DB_FILE = Path("/app/db/pihole_hosts_db.yaml")
 
 
 def load_db():

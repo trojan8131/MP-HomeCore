@@ -1,21 +1,79 @@
-    labels:
-      - "MP-HomeCore.dns_ip=192.168.1.10"
-      - "MP-HomeCore.hostname=mailslurper.mp-studio.duckdns.org"
-      - "MP-HomeCore.cname_target=npm.mp-studio.duckdns.org"
-      - "MP-HomeCore.pihole_type=cname" # or dns
-      - "MP-HomeCore.pihole_disable=true"
-      - "MP-HomeCore.npm_disable=true" 
+labels:
+  # (can be defined globally in config.yaml)
+  # =======================
+  # Pi-hole / DNS settings
+  # =======================
 
-      #This you can set as default in config.yaml
-      - "MP-HomeCore.forward_host=192.168.1.10"
-      - "MP-HomeCore.forward_port=8080"
-      - "MP-HomeCore.blockCommExploits=true"
-      - "MP-HomeCore.Caching=false"
-      - "MP-HomeCore.sslCertificate=*.mp-studio.duckdns.org" #name of cert
-      - "MP-HomeCore.forceHttps=true"
-      - "MP-HomeCore.enableHttp2=false"
-      - "MP-HomeCore.hstsEnabled=false"
-      - "MP-HomeCore.includeSubdomainsInHsts=false"
-      - "MP-HomeCore.targetScheme=http"
-      - "MP-HomeCore.allowWebsockets=true"
-      - "MP-HomeCore.accessList=ACL-HOME" # default is Publicly Accessible, default access policy
+  # IP address used when pihole_type=dns
+  - "MP-HomeCore.dns_ip=192.168.1.10"
+
+  # Fully Qualified Domain Name to be created in Pi-hole and/or NPM
+  - "MP-HomeCore.hostname=mailslurper.mp-studio.duckdns.org"
+
+  # Target hostname for CNAME records
+  - "MP-HomeCore.cname_target=npm.mp-studio.duckdns.org"
+
+  # Pi-hole record type: 'dns' (A record) or 'cname'
+  - "MP-HomeCore.pihole_type=cname"
+
+  # Disable Pi-hole record creation for this container
+  - "MP-HomeCore.pihole_disable=true"
+
+
+  # ==============================
+  # Nginx Proxy Manager – general
+  # ==============================
+
+  # Disable Nginx Proxy Manager configuration for this container
+  - "MP-HomeCore.npm_disable=true"
+
+
+  # ==========================================
+  # Nginx Proxy Manager – backend configuration
+  # ==========================================
+
+  # Backend service IP or hostname
+  - "MP-HomeCore.forward_host=192.168.1.10"
+
+  # Backend service port
+  - "MP-HomeCore.forward_port=8080"
+
+  # Backend scheme (http or https)
+  - "MP-HomeCore.targetScheme=http"
+
+
+  # ==================================
+  # Nginx Proxy Manager – security
+  # ==================================
+
+  # Enable NPM exploit protection
+  - "MP-HomeCore.blockCommExploits=true"
+
+  # Force HTTPS redirect
+  - "MP-HomeCore.forceHttps=true"
+
+  # SSL certificate name as defined in NPM
+  - "MP-HomeCore.sslCertificate=*.mp-studio.duckdns.org"
+
+  # Enable or disable HTTP/2
+  - "MP-HomeCore.enableHttp2=false"
+
+  # Enable HSTS header
+  - "MP-HomeCore.hstsEnabled=false"
+
+  # Apply HSTS policy to subdomains
+  - "MP-HomeCore.includeSubdomainsInHsts=false"
+
+
+  # ==============================
+  # Nginx Proxy Manager – features
+  # ==============================
+
+  # Enable or disable proxy caching
+  - "MP-HomeCore.Caching=false"
+
+  # Allow WebSocket upgrade headers
+  - "MP-HomeCore.allowWebsockets=true"
+
+  # Access list name in NPM (default: Publicly Accessible)
+  - "MP-HomeCore.accessList=ACL-HOME"

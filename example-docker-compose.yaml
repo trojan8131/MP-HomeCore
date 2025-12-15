@@ -1,0 +1,20 @@
+services:
+  pairdrop:
+    image: lscr.io/linuxserver/pairdrop:latest
+    container_name: pairdrop
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - RATE_LIMIT=false #optional
+      - WS_FALLBACK=false #optional
+      - RTC_CONFIG= #optional
+      - DEBUG_MODE=false #optional
+    ports:
+      - 3000:3000
+    restart: always
+    labels:
+      - "MP-HomeCore.forward_host=192.168.1.10"
+      - "MP-HomeCore.forward_port=3000"
+      - "MP-HomeCore.hostname=pairdrop.mp-studio.duckdns.org"
+      - "MP-HomeCore.cname_target=npm.mp-studio.duckdns.org"

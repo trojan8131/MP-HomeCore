@@ -175,7 +175,7 @@ def scheduled_job():
 if __name__ == "__main__":
     config = load_config()
     print("✅ Configuration loaded successfully.")
-    #scheduled_job()
+    scheduled_job()
     scheduler = BackgroundScheduler()
     scheduler.add_job(scheduled_job, "interval", minutes=config.get("SCHEDULER_INTERVAL_MINUTES", 1))
     scheduler.start()
