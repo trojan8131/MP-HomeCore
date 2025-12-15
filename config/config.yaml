@@ -18,24 +18,24 @@ NPM_URL: 'http://192.168.1.10:81' # NPM API URL
 NPM_USERNAME: 'admin1@example.com' # NPM username
 NPM_PASSWORD: 'Password'          # NPM password
 
-NPM_DEFAULTS:                     # Global defaults for new Proxy Hosts
-  forward_scheme: 'http'          # Backend scheme (http or https)
-  certificate_name: "*.mp-studio.duckdns.org" # Default SSL certificate
-#  access_list_name: 'ACL-HOME'    # Default access list
-  block_exploits: true            # Enable exploit protection
-  caching_enabled: false          # Enable proxy caching
-  ssl_forced: true                # Force HTTPS
-  http2_support: true             # Enable HTTP/2
-  hsts_enabled: true              # Enable HSTS header
-  hsts_subdomains: true           # Include subdomains in HSTS
-  allow_websocket_upgrade: true   # Allow WebSocket upgrades
+# NPM_DEFAULTS:                     # Global defaults for new Proxy Hosts
+#   forward_scheme: 'http'          # Backend scheme (http or https)
+#   certificate_name: "*.mp-studio.duckdns.org" # Default SSL certificate
+#   access_list_name: 'ACL-HOME'    # Default access list
+#   block_exploits: true            # Enable exploit protection
+#   caching_enabled: false          # Enable proxy caching
+#   ssl_forced: true                # Force HTTPS
+#   http2_support: true             # Enable HTTP/2
+#   hsts_enabled: true              # Enable HSTS header
+#   hsts_subdomains: true           # Include subdomains in HSTS
+#   allow_websocket_upgrade: true   # Allow WebSocket upgrades
 
 # =====================
 # Pi-hole defaults
 # =====================
-PIHOLE_DEFAULTS:
-  pihole_type: 'cname'            # Default record type: 'dns' or 'cname'
-  cname_target: 'npm.mp-studio.duckdns.org' # Default CNAME target
+# PIHOLE_DEFAULTS:
+#   pihole_type: 'cname'            # Default record type: 'dns' or 'cname'
+#   cname_target: 'npm.mp-studio.duckdns.org' # Default CNAME target
 
 # =====================
 # Docker API

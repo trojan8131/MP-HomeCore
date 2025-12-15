@@ -50,8 +50,11 @@ This allows you to expose internal services automatically without manually touch
 ## How to Use
 
 git clone https://github.com/trojan8131/MP-HomeCore.git
+
 cd MP-HomeCore
+
 docker compose up -d --build
+
 
 ---
 
