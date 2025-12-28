@@ -1,6 +1,0 @@
-cnames:
-- alias: trilium.mp-studio.duckdns.org
-  target: npm.mp-studio.duckdns.org
-- alias: null
-  target: npm.mp-studio.duckdns.org
-hosts: []

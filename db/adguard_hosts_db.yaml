@@ -1,5 +1,0 @@
-hosts:
-- answer: npm.mp-studio.duckdns.org
-  domain: trilium.mp-studio.duckdns.org
-- answer: 192.168.1.10
-  domain: npm.mp-studio.duckdns.org
