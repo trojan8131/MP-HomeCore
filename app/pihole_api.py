@@ -6,14 +6,14 @@ from pathlib import Path
 DB_FILE = Path("/app/db/pihole_hosts_db.yaml")
 
 
-def load_db():
+def load_db_pihole():
     """Load the YAML database of added hosts."""
     if DB_FILE.exists():
         with open(DB_FILE, "r") as f:
             return yaml.safe_load(f) or {"hosts": [], "cnames": []}
     return {"hosts": [], "cnames": []}
 
-def save_db(db):
+def save_db_pihole(db):
     """Save the YAML database."""
     with open(DB_FILE, "w") as f:
         yaml.safe_dump(db, f)
@@ -67,16 +67,16 @@ def pihole_add_dns_host(pihole_url: str, ip: str, hostname: str, sid: str):
     result = pihole_request("PUT", url, sid, data)
 
     if not result["ok"]:
-        #print(f"❌ Error adding host {hostname}:")
+        print(f"❌ Error adding host {hostname}:")
         #pprint(result["error"])
         return result
 
     print(f"✅ Host {hostname} -> {ip} added successfully.")
 
-    db = load_db()
+    db = load_db_pihole()
     db.setdefault("hosts", [])
     db["hosts"].append({"hostname": hostname, "ip": ip})
-    save_db(db)
+    save_db_pihole(db)
 
     return result
 
@@ -93,10 +93,10 @@ def pihole_add_cname(pihole_url: str, alias: str, target: str, sid: str):
 
     print(f"✅ CNAME {alias} -> {target} added successfully.")
 
-    db = load_db()
+    db = load_db_pihole()
     db.setdefault("cnames", [])
     db["cnames"].append({"alias": alias, "target": target})
-    save_db(db)
+    save_db_pihole(db)
 
     return result
 
@@ -120,12 +120,12 @@ def pihole_delete_dns_host(pihole_url: str, ip: str, hostname: str, sid: str):
 
     print(f"✅ Host {hostname} -> {ip} deleted successfully.")
 
-    db = load_db()
+    db = load_db_pihole()
     db["hosts"] = [
         h for h in db.get("hosts", [])
         if not (h["hostname"] == hostname and h["ip"] == ip)
     ]
-    save_db(db)
+    save_db_pihole(db)
 
     return response.json() if response.text else {"status": "deleted"}
 
@@ -149,12 +149,12 @@ def pihole_delete_cname(pihole_url: str, alias: str, target: str, sid: str):
 
     print(f"✅ CNAME {alias} -> {target} deleted successfully.")
 
-    db = load_db()
+    db = load_db_pihole()
     db["cnames"] = [
         c for c in db.get("cnames", [])
         if not (c["alias"] == alias and c["target"] == target)
     ]
-    save_db(db)
+    save_db_pihole(db)
 
     return response.json() if response.text else {"status": "deleted"}
 

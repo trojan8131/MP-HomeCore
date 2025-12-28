@@ -2,6 +2,21 @@ labels:
   # (can be defined globally in config.yaml)
   # Hash what you dont need
   # =======================
+  # AdGuard / DNS settings
+  # =======================
+
+  # IP address or hostname that the domain will point to
+  - "MP-HomeCore.adguard_target=192.168.1.10"
+
+  # Fully Qualified Domain Name to be created in AdGuard
+  - "MP-HomeCore.adguard_hostname=mailslurper.mp-studio.duckdns.org"
+
+  # Disable AdGuard record creation for this container
+  - "MP-HomeCore.adguard_disable=true"
+
+
+
+  # =======================
   # Pi-hole / DNS settings
   # =======================
 

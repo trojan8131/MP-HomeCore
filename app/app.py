@@ -7,7 +7,7 @@ from pihole_api import *
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 from npm_api import *
-
+from adguard_api import *
 CONFIG_FILE = Path("/app/config/config.yaml")
 
 
@@ -62,6 +62,7 @@ def scheduled_job():
     if config.get("PIHOLE_ENABLED", False):
         pihole_defaults = config.get("PIHOLE_DEFAULTS", {})
         for host,labels in docker_info.items():
+            #pprint(f"Processing container: {host} with labels: {labels}")
             if labels.get("MP-HomeCore.pihole_disable","false") == "true":
                 print(f"⚠ Pi-hole integration disabled for container {host} via label.")
                 continue
@@ -79,7 +80,7 @@ def scheduled_job():
             except ValueError as e:
                 print(f"❌ Pi-hole operation failed: {e}")
         # Deleting hosts/CNAMEs that are no longer in Docker containers
-        db = load_db()
+        db = load_db_pihole()
         for type,hosts in db.items():
             for entry in hosts:
                 if type == "hosts":
@@ -170,7 +171,50 @@ def scheduled_job():
     else:
         print("⚠️ NPM integration is disabled in config.")
 
+    if config.get("ADGUARD_ENABLED", False):
+        adguard_defaults = config.get("ADGUARD_DEFAULTS", {})
 
+        for host, labels in docker_info.items():
+            if labels.get("MP-HomeCore.adguard_disable", "false") == "true":
+                print(f"⚠ AdGuard integration disabled for container {host} via label.")
+                continue
+
+            domain = labels.get("MP-HomeCore.adguard_hostname")
+            answer = labels.get("MP-HomeCore.adguard_target") or adguard_defaults.get("adguard_target")
+            if not domain or not answer:
+                print(f"⚠ Skipping container {host}, No labels for AdGuard hostname/target found.")
+                continue
+
+            try:
+                adguard_add_dns_host(
+                    adguard_url=config["ADGUARD_URL"],
+                    domain=domain,
+                    answer=answer,
+                    username=config["ADGUARD_USERNAME"],
+                    password=config["ADGUARD_PASSWORD"]
+                )
+            except ValueError as e:
+                print(f"❌ AdGuard operation failed: {e}")
+
+        # Usuwanie wpisów, które już nie istnieją w docker_info
+        db = load_db_adguard()
+        for entry in db.get("hosts", []):
+            domain = entry["domain"]
+            answer = entry["answer"]
+            if not any(labels.get("MP-HomeCore.adguard_hostname") == domain for labels in docker_info.values()):
+                try:
+                    adguard_delete_dns_host(
+                        adguard_url=config["ADGUARD_URL"],
+                        domain=domain,
+                        answer=answer,
+                        username=config["ADGUARD_USERNAME"],
+                        password=config["ADGUARD_PASSWORD"]
+                    )
+                except ValueError as e:
+                    print(f"❌ AdGuard deletion failed: {e}")
+
+    else:
+        print("⚠️ AdGuard integration is disabled in config.")
 
 if __name__ == "__main__":
     config = load_config()

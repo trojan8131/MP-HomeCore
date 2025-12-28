@@ -1,10 +1,11 @@
 # MP-HomeCore
 
-MP-HomeCore is a Docker-based automation service that **dynamically manages DNS records in Pi-hole and proxy hosts in Nginx Proxy Manager (NPM)** based on Docker container labels.
+MP-HomeCore is a Docker-based automation service that **dynamically manages DNS records in Pi-hole or Adguard and proxy hosts in Nginx Proxy Manager (NPM)** based on Docker container labels.
 
 It connects to a **local Docker socket** or a **remote Docker API**, inspects running containers, reads predefined labels, and automatically:
 
 * Creates or updates **DNS / CNAME records in Pi-hole**
+* Creates or updates **DNS / CNAME records in Adguard**
 * Creates or updates **Proxy Hosts in Nginx Proxy Manager**
 * Applies sane defaults with per-container overrides via labels
 
@@ -58,6 +59,8 @@ https://youtu.be/nXfmK81Qr7A
 git clone https://github.com/trojan8131/MP-HomeCore.git
 
 cd MP-HomeCore
+
+cp config/config_example.yaml config/config.yaml
 
 docker compose up -d --build
 
@@ -131,7 +134,7 @@ Each run:
 ## 🔐 Security Notes
 
 * Prefer `docker-socket-proxy` over raw `/var/run/docker.sock`
-* Use dedicated Pi-hole and NPM credentials
+* Use dedicated Pi-hole, Adguard and NPM credentials
 * Restrict NPM access lists where possible
 
 ---
