@@ -8,6 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import time
 from npm_api import *
 from adguard_api import *
+from mikrotik_api import *
 CONFIG_FILE = Path("/app/config/config.yaml")
 
 
@@ -59,6 +60,49 @@ def scheduled_job():
     config = load_config()
     docker_info = get_containers_by_label("MP-HomeCore",config)
     #pprint(docker_info)
+    if config.get("MIKROTIK_ENABLED", False):
+        mikrotik_defaults = config.get("MIKROTIK_DEFAULTS", {})
+        for host,labels in docker_info.items():
+            #pprint(f"Processing container: {host} with labels: {labels}")
+            if labels.get("MP-HomeCore.mikrotik_disable","false") == "true":
+                print(f"⚠ Mikrotik integration disabled for container {host} via label.")
+                continue
+            target=labels.get("MP-HomeCore.mikrotik_target", mikrotik_defaults.get("mikrotik_target", None))
+            hostname = labels.get("MP-HomeCore.mikrotik_hostname")
+            mikrotik_type = labels.get("MP-HomeCore.mikrotik_type", mikrotik_defaults.get("mikrotik_type", "dns"))
+            if  hostname and target:
+                #print(f"Processing container: {host} with IP: {ip}, Hostname: {hostname}, CNAME Target: {cname_target}, Type: {mikrotik_type}")
+                try:
+                    if "dns" == mikrotik_type:
+                        mikrotik_add_a(config["MIKROTIK_IP"], config["MIKROTIK_USERNAME"], config["MIKROTIK_PASSWORD"], config["MIKROTIK_PORT"], hostname, target)
+                    if "cname" == mikrotik_type:
+                        mikrotik_add_cname(config["MIKROTIK_IP"], config["MIKROTIK_USERNAME"], config["MIKROTIK_PASSWORD"], config["MIKROTIK_PORT"], hostname, target)
+                except ValueError as e:
+                    print(f"❌ Mikrotik operation failed: {e}")
+            else:
+                print(f"⚠ Skipping container {host}, No labels for Mikrotik hostname/target found.")
+        # Deleting hosts/CNAMEs that are no longer in Docker containers
+        db = load_db_mikrotik()
+        for type,hosts in db.items():
+            for entry in hosts:
+                if type == "hosts":
+                    hostname = entry["hostname"]
+                    ip = entry["ip"]
+                    if not any(labels.get("MP-HomeCore.mikrotik_hostname") == hostname for labels in docker_info.values()):
+                        try:
+                            mikrotik_delete_a(config["MIKROTIK_IP"], config["MIKROTIK_USERNAME"], config["MIKROTIK_PASSWORD"], config["MIKROTIK_PORT"], hostname, ip)
+                        except ValueError as e:
+                            print(f"❌ Mikrotik deletion failed: {e}")
+                elif type == "cnames":
+                    alias = entry["hostname"]
+                    target = entry["cname"]
+                    if not any(labels.get("MP-HomeCore.mikrotik_hostname") == alias for labels in docker_info.values()):
+                        try:
+                            mikrotik_delete_cname(config["MIKROTIK_IP"], config["MIKROTIK_USERNAME"], config["MIKROTIK_PASSWORD"], config["MIKROTIK_PORT"], alias, target)
+                        except ValueError as e:
+                            print(f"❌ Mikrotik deletion failed: {e}")
+    else:
+        print("⚠️ Mikrotik integration is disabled in config.")
     if config.get("PIHOLE_ENABLED", False):
         pihole_defaults = config.get("PIHOLE_DEFAULTS", {})
         for host,labels in docker_info.items():
@@ -70,6 +114,7 @@ def scheduled_job():
             hostname = labels.get("MP-HomeCore.hostname")
             cname_target = labels.get("MP-HomeCore.cname_target", pihole_defaults.get("cname_target", None))
             pihole_type = labels.get("MP-HomeCore.pihole_type", pihole_defaults.get("pihole_type", "dns"))
+            
             #print(f"Processing container: {host} with IP: {ip}, Hostname: {hostname}, CNAME Target: {cname_target}, Type: {pihole_type}")
             try:
                 sid = pihole_get_sid(config["PIHOLE_URL"], config["PIHOLE_PASSWORD"])

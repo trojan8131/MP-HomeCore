@@ -15,6 +15,22 @@ labels:
   - "MP-HomeCore.adguard_disable=true"
 
 
+  # =======================
+  # Mikrotik / DNS settings
+  # =======================
+
+  # IP address or hostname that the domain will point to
+  - "MP-HomeCore.mikrotik_target=192.168.1.10"
+
+  # Fully Qualified Domain Name to be created in Mikrotik
+  - "MP-HomeCore.mikrotik_hostname=mailslurper.mp-studio.duckdns.org"
+
+  # Mikrotik record type: 'dns' (A record) or 'cname'
+  - "MP-HomeCore.mikrotik_type=cname"
+
+  # Disable Mikrotik record creation for this container
+  - "MP-HomeCore.mikrotik_disable=true"
+
 
   # =======================
   # Pi-hole / DNS settings

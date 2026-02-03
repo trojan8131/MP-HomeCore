@@ -24,6 +24,23 @@ ADGUARD_DEFAULTS:
 
 
 # =====================
+# MIKROTIK configuration
+# =====================
+MIKROTIK_ENABLED: true                 # Enable MIKROTIK integration
+MIKROTIK_IP: '192.168.1.16'  # MIKROTIK API URL
+MIKROTIK_PORT: 8728                     # MIKROTIK API Port
+MIKROTIK_USERNAME: 'admin'             # MIKROTIK username
+MIKROTIK_PASSWORD: 'admin'     
+     # MIKROTIK password 
+
+# =====================
+# MIKROTIK defaults
+# =====================
+MIKROTIK_DEFAULTS:
+  mikrotik_target: 'npm.mp-studio.duckdns.org'  # Default target (IP or hostname)
+  mikrotik_type: "dns"                    # Default record type: 'dns' or 'cname'
+
+# =====================
 # Pi-hole configuration
 # =====================
 PIHOLE_ENABLED: true              # Enable Pi-hole integration
