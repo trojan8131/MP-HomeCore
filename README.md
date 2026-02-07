@@ -1,15 +1,18 @@
 # MP-HomeCore
 
-MP-HomeCore is a Docker-based automation service that **dynamically manages DNS records in Pi-hole or Adguard and proxy hosts in Nginx Proxy Manager (NPM)** based on Docker container labels.
+
+MP-HomeCore is a Docker-based automation service that **dynamically manages DNS records in Pi-hole, AdGuard Home, proxy hosts in Nginx Proxy Manager (NPM), and DNS entries on MikroTik RouterOS** based on Docker container labels.
 
 It connects to a **local Docker socket** or a **remote Docker API**, inspects running containers, reads predefined labels, and automatically:
 
 * Creates or updates **DNS / CNAME records in Pi-hole**
-* Creates or updates **DNS / CNAME records in Adguard**
+* Creates or updates **DNS / CNAME records in AdGuard Home**
 * Creates or updates **Proxy Hosts in Nginx Proxy Manager**
+* Creates or updates **DNS records on MikroTik via RouterOS API**
 * Applies sane defaults with per-container overrides via labels
 
-This allows you to expose internal services automatically without manually touching Pi-hole or NPM.
+This allows you to expose internal services automatically without manually touching DNS servers, reverse proxies, or routers.
+
 
 ---
 ## ✨ Youtube Tutorial (Should be in English Dubbing)
@@ -21,26 +24,29 @@ https://youtu.be/nXfmK81Qr7A
 
 ## ✨ Features
 
-* 🔍 Container discovery via Docker API
-* 🏷️ Declarative configuration using Docker labels
-* 🌐 Pi-hole DNS & CNAME management via API
-* 🔐 Nginx Proxy Manager Proxy Host management via API
-* ⚙️ Global defaults with per-service overrides
-* 🐳 Works with local Docker socket or remote Docker host
+* 🔍 Container discovery via Docker API  
+* 🏷️ Declarative configuration using Docker labels  
+* 🌐 Pi-hole DNS & CNAME management via API  
+* 🌐 AdGuard Home DNS & CNAME management via API  
+* 🔐 Nginx Proxy Manager Proxy Host management via API  
+* 📡 MikroTik RouterOS DNS management via API  
+* ⚙️ Global defaults with per-service overrides  
+* 🐳 Works with local Docker socket or remote Docker host  
 * ⏱️ Scheduled reconciliation (idempotent)
-
 ---
 
 ## 🧠 How It Works
 
-1. MP-HomeCore connects to Docker (local socket or remote API)
-2. It scans all running containers
-3. Containers with `MP-HomeCore.*` labels are processed
+1. MP-HomeCore connects to Docker (local socket or remote API).
+2. It scans all running containers.
+3. Containers with `MP-HomeCore.*` labels are processed.
 4. Based on labels and defaults:
 
-   * DNS or CNAME records are created in Pi-hole
-   * Proxy Hosts are created in NPM
-5. The process repeats every defined interval
+   * DNS or CNAME records are created in **Pi-hole**
+   * DNS or CNAME records are created in **AdGuard Home**
+   * Proxy Hosts are created in **Nginx Proxy Manager**
+   * DNS entries are created or updated on **MikroTik RouterOS**
+5. The process repeats every defined interval.
 
 ---
 
